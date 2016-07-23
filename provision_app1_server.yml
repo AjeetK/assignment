@@ -1,0 +1,9 @@
+---
+  - name: setup app1 server
+    hosts: localhost
+    connection: local
+
+    roles:
+       - provision_app1_server
+#       - setup_nginx_passenger
+#       - setting_nginx_config

@@ -1,0 +1,9 @@
+---
+  - name: setup haproxy server
+    hosts: haproxy
+    remote_user: ubuntu
+    become: yes
+    become_method: sudo
+
+    roles:
+       - orchestrate_haproxy_server

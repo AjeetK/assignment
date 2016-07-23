@@ -1,0 +1,9 @@
+---
+  - name: Configure firewall at database server
+    hosts: database
+    remote_user: ubuntu
+    become: yes
+    become_method: sudo
+
+    roles:
+       - database_server_firewall

@@ -1,0 +1,9 @@
+---
+  - name: setup database server
+    hosts: database
+    remote_user: ubuntu
+    become: yes
+    become_method: sudo
+
+    roles:
+       - setup_database

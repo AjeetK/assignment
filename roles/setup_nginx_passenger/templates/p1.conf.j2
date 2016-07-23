@@ -1,0 +1,11 @@
+server
+{
+  listen 80;
+  server_name  {{ server_name }};
+
+  passenger_enabled on;
+  passenger_app_env production;
+
+  root /home/ubuntu/xyz/pqrs;
+
+}

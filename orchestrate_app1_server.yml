@@ -1,0 +1,10 @@
+---
+  - name: setup app1 server
+    hosts: app1
+    remote_user: ubuntu
+    become: yes
+    become_method: sudo
+
+    roles:
+#       - setup_nginx_passenger
+       - configure_product1

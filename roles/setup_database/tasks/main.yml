@@ -1,0 +1,51 @@
+---
+  - name: Install MySQL packages
+    apt: pkg={{item}} state=installed
+    with_items:
+      - bundler
+      - mysql-server-core-5.5
+      - mysql-client-core-5.5
+      - libmysqlclient-dev
+      - python-mysqldb
+      - mysql-server
+      - mysql-client
+      - build-essential
+
+#  - name: Remove the MySQL test database
+#    action: mysql_db db=test state=absent
+
+  - name: Create global my.cnf
+    template: src=mysql.cnf.j2 dest=/etc/mysql/my.cnf
+
+  - name: Create databases
+    mysql_db: name={{item}} state=present collation=utf8_general_ci encoding=utf8
+    with_items:
+      - product1
+      - product2
+
+  - name: Add deploy DB user and allow access to news_* databases
+    mysql_user: name={{item.user}} password={{item.password}} host="%" priv=db1.*:ALL/db2.*:ALL,GRANT state=present
+    with_items:
+      - { user: product1_user, password: product1 }
+      - { user: product2_user, password: product2 }
+
+#  - name: Set root password
+#    mysql_user: name=root password={{password}} host="{{item}}" priv=*.*:ALL,GRANT state=present
+#    with_items:
+#      - "{{ansible_hostname}}"
+#      - 127.0.0.1
+#      - ::1
+#      - localhost
+
+  - name: Copy sample database file
+    copy: src=../templates/product1_table.sql dest=/tmp/product1_table.sql
+
+  - name: Create table in product1 database
+    mysql_db: login_user=root login_password="" name=product1 state=import target=/tmp/product1_table.sql
+
+
+  - name: Create table in product2 database
+    mysql_db: login_user=root login_password="" name=product2 state=import target=/tmp/product2_table.sql
+
+  - name: Restart the MySQL service
+    action: service name=mysql state=restarted enabled=true

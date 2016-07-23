@@ -1,0 +1,12 @@
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+
+[app1]
+52.221.241.36 ansible_ssh_private_key_file=~/.ssh/browserstack.pem
+
+[database]
+52.221.238.131 ansible_ssh_private_key_file=~/.ssh/browserstack.pem
+
+[haproxy]
+54.169.88.177 ansible_ssh_private_key_file=~/.ssh/browserstack.pem

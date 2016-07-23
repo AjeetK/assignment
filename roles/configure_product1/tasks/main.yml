@@ -1,0 +1,24 @@
+---
+- name: Create xyz directory if it does not exist
+  file: path=/home/ubuntu/xyz state=directory
+
+- name: Create pqrs directory if it does not exist
+  file: path=/home/ubuntu/xyz/pqrs state=directory
+
+- name: Copy sample index.html file to /xyz/pqrs
+  template:
+    src: index.html.j2
+    dest: /home/ubuntu/xyz/pqrs/index.html
+
+- name: Remove the default app
+  command: rm -rf /etc/nginx/sites-available/default
+
+- name: Remove the default app config if exists
+  command: rm -rf /etc/nginx/sites-enabled/default
+
+
+- name: Configure nginx for the app
+  template: src=product1.conf.j2 dest=/etc/nginx/conf.d/product1.conf group=www-data owner=www-data force=yes
+
+- name: Restart nginx
+  action: service name=nginx state=restarted

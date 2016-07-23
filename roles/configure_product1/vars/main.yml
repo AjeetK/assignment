@@ -1,0 +1,3 @@
+---
+# vars file for ansible-nginx-passenger
+server_name: p1.app1.com
